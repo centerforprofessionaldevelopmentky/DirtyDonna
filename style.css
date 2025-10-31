@@ -33,33 +33,56 @@ header p {
   opacity: 0.9;
 }
 
-/* Gallery Layout */
+/* Gallery Grid */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    "featured featured"
+    "img2 img3"
+    "img4 img5";
+  gap: 20px;
   padding: 2rem;
   flex: 1;
 }
 
-.gallery-item {
-  position: relative;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  background: #000;
+/* Featured image spans both columns */
+.featured {
+  grid-area: featured;
+  height: 400px;
 }
 
-/* Image */
-.gallery-item img {
+/* Assign grid areas */
+.gallery-item:nth-child(2) { grid-area: img2; }
+.gallery-item:nth-child(3) { grid-area: img3; }
+.gallery-item:nth-child(4) { grid-area: img4; }
+.gallery-item:nth-child(5) { grid-area: img5; }
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* Image container */
+.image-container {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 15px;
-  transition: all 0.5s ease;
+  transition: transform 0.5s ease, filter 0.5s ease;
 }
 
-/* Hover Overlay */
+/* Overlay */
 .overlay {
   position: absolute;
   top: 0;
@@ -72,8 +95,8 @@ header p {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
   transition: opacity 0.4s ease;
+  z-index: 1;
 }
 
 .overlay h3 {
@@ -82,24 +105,25 @@ header p {
 }
 
 /* Hover Effects */
-.gallery-item:hover img {
+.image-container:hover img {
   transform: scale(1.1);
   filter: brightness(1.2);
 }
 
-.gallery-item:hover .overlay {
+.image-container:hover .overlay {
   opacity: 1;
 }
 
-/* Reactions */
+/* Reactions Section */
 .reactions {
   display: flex;
   justify-content: space-around;
   align-items: center;
   background: #1b1b1b;
   padding: 0.8rem 0;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-top: 1px solid #333;
+  z-index: 2; /* Ensures it's above overlay */
+  position: relative;
 }
 
 .reactions button {
@@ -124,8 +148,18 @@ footer {
   color: #bbb;
 }
 
-/* Responsive for Mobile */
-@media (max-width: 600px) {
+/* Responsive Layout */
+@media (max-width: 700px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "featured"
+      "img2"
+      "img3"
+      "img4"
+      "img5";
+  }
+
   header h1 {
     font-size: 1.8rem;
   }
